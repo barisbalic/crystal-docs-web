@@ -1,0 +1,83 @@
+<div id="content">
+  <h1>Crystal Docs</h1>
+  <p class="tagline">A place for crystal shards to host their documentation, inspired by hexdocs.pm.</p>
+  <br>
+
+  <h2>Finding Documentation</h2>
+  <p>To find documentation for a shard you can use the following URLs:</p>
+  <p>
+    <code>https://crystal-docs.org/&lt;author&gt;/&lt;shard&gt;</code> - Latest documentation.
+    <br>
+    Example: <code>https://crystal-docs.org/sdogruyol/kemal</code>
+  </p>
+
+  <p>
+  <code>https://crystal-docs.org/&lt;author&gt;/&lt;shard&gt;/&lt;version|tag|branch&gt;</code> - Documentation for a specific
+   version, tag or branch.
+    <br>
+    Example: <code>https://crystal-docs.org/sdogruyol/kemal/0.15.0</code>
+  </p>
+  <br>
+
+  <h2>Publishing documentation</h2>
+  <p>
+    Any GitHub user can publish documentation for their shards, once they have been
+    <a href="<%= github_login_link %>">identified</a>.  Access tokens are never stored, they are just used to fetch
+    the public keys of the author.
+  </p>
+
+  <p>
+    After identifying, authors can publish the current documentation with the
+    <a href="https://github.com/barisbalic/crystal-docs-cli">Crystal Docs CLI</a>:
+    <br>
+    <code>crystaldocs publish</code>
+    <br>
+    <br>
+    Once the current documentation is published, version/tag/branch specific documents can then be published.
+    <br>
+    <code>crystaldocs publish [version|tag|branch]</code>
+    <br>
+    Example: <code>crystaldocs publish 0.8.0</code>
+    <br>
+    <br>
+    It is possible to publish documentation directly using rsync...
+    <br>
+    <code>rsync ./doc/* [author]@publish.crystal-docs.org:[shard]</code>
+    <br>
+    Example: <code>rsync ./doc/* sdogruyol@publish.crystal-docs.org:kemal</code>
+    <br>
+    <br>
+    <code>rsync ./doc/* [author]@publish.crystal-docs.org:[shard]/[version]</code>
+    <br>
+    Example: <code>rsync ./doc/* sdogruyol@publish.crystal-docs.org:kemal/0.15.0</code>
+  </p>
+  <br>
+
+
+  <h2>Etc...</h2>
+  <p>
+    Crystal Docs is an open-source project, you can contribute to the
+    <a href="https://github.com/barisbalic/crystal-docs-web">website</a> and the
+    <a href="https://github.com/barisbalic/crystal-docs-cli">command-line tool</a>.
+    <br>
+    Feedback, requests, and bug reports are also welcome, please throw them at <a href="https://github.com/barisbalic/crystal-docs-web/issues">GitHub Issues</a>.
+    <br>
+    Documentation is only available if the author publishes it, if documentation is not present, consider contacting
+    the author or raising an issue on their project.
+  </p>
+  <p>And badges, there are badges:
+  <br>
+  <br>
+  <img src="https://crystal-docs.org/badge.svg" />
+  <strong>[![crystal-docs.org](https://crystal-docs.org/badge.svg)](https://crystal-docs.org/&lt;author&gt;/&lt;shard&gt;)</strong>
+  <br>
+  <br>
+  <img src="https://crystal-docs.org/badge.svg?style=plastic" />
+  <strong>[![crystal-docs.org](https://crystal-docs.org/badge.svg?style=plastic)](https://crystal-docs.org/&lt;author&gt;/&lt;shard&gt;)</strong>
+  <br>
+  <br>
+  <img src="https://crystal-docs.org/badge.svg?style=flat-square" />
+  <strong>[![crystal-docs.org](https://crystal-docs.org/badge.svg?style=flat-square)](https://crystal-docs.org/&lt;author&gt;/&lt;shard&gt;)</strong>
+
+  </p>
+</div>
