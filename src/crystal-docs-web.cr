@@ -3,7 +3,17 @@ require "./crystal-docs-web/github/client"
 require "./crystal-docs-web/*"
 require "kemal"
 
+require "ecr/macros"
+
 module Crystal::Docs::Web
+  $ga_tracking_id = ENV["GA_TRACKING_ID"]
+
+  macro partial(filename)
+    io = MemoryIO.new
+    ECR.embed("src/views/#{{{filename}}}", io)
+    io.to_s
+  end
+
   error 404 do
     render "src/views/404.ecr", "src/views/layouts/layout.ecr"
   end

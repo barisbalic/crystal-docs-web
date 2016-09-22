@@ -4,8 +4,10 @@ require "uri"
 require "http"
 
 # Bastardised copy of the original Crystal StaticFileHandler implementation.
-# This version will load a file by the name of index.html if it's present in a directory and it will not show a
-# directory listing, it will instead return a 404.
+# This version will load a file by the name of index.html if it's present in a directory rather than showing a
+# directory listing.
+#
+# It also injects the GA tracking code into "static" files.
 class StaticFileHandler < HTTP::Handler
   @public_dir : String
 
@@ -63,22 +65,23 @@ class StaticFileHandler < HTTP::Handler
       if File.exists?(index_path)
         context.response.content_type = "text/html"
         context.response.content_length = File.size(index_path)
-        File.open(index_path) do |file|
-          IO.copy(file, context.response)
-        end
+        IO.copy(content_io(index_path), context.response)
       else
         call_next(context)
       end
-      # directory_listing(context.response, request_path, file_path)
     elsif File.exists?(file_path) && !is_dir
       context.response.content_type = mime_type(file_path)
       context.response.content_length = File.size(file_path)
-      File.open(file_path) do |file|
-        IO.copy(file, context.response)
-      end
+      IO.copy(content_io(file_path), context.response)
     else
       call_next(context)
     end
+  end
+
+  private def content_io(filename)
+    content = File.read(filename)
+    content = content.gsub("</head>", "#{analytics_script}</head>")
+    MemoryIO.new(content)
   end
 
   private def redirect_to(context, url)
@@ -96,5 +99,9 @@ class StaticFileHandler < HTTP::Handler
     when ".js"           then "application/javascript"
     else                      "application/octet-stream"
     end
+  end
+
+  private def analytics_script
+    Crystal::Docs::Web.partial("ga_tracking_code.ecr")
   end
 end
