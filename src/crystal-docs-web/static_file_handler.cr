@@ -102,6 +102,6 @@ class StaticFileHandler < HTTP::Handler
   end
 
   private def analytics_script
-    Crystal::Docs::Web.partial("ga_tracking_code.ecr")
+    Crystal::Docs::Web.partial("shared/ga_tracking_code")
   end
 end

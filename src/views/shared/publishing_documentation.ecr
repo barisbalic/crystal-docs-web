@@ -1,0 +1,33 @@
+<h2>Publishing documentation</h2>
+<p>
+  Any GitHub user can publish documentation for their Shards, once they have been
+  <a href="<%= github_login_link %>">identified</a>.
+  <br>
+  <strong>Access tokens are never stored, they are just used to fetch the public keys of the author.</strong>
+</p>
+
+<p>
+  After identifying, authors can publish the current documentation with the
+  <a href="https://github.com/barisbalic/crystal-docs-cli">Crystal Docs CLI</a>:
+  <br>
+  <code>crystaldocs publish</code>
+  <br>
+  <br>
+  Once the current documentation is published, version/tag/branch specific documents can then be published.
+  <br>
+  <code>crystaldocs publish [version|tag|branch]</code>
+  <br>
+  Example: <code>crystaldocs publish 0.8.0</code>
+  <br>
+  <br>
+  It is possible to publish documentation directly using rsync...
+  <br>
+  <code>rsync ./doc/* [author]@publish.crystal-docs.org:[shard]</code>
+  <br>
+  Example: <code>rsync ./doc/* sdogruyol@publish.crystal-docs.org:kemal</code>
+  <br>
+  <br>
+  <code>rsync ./doc/* [author]@publish.crystal-docs.org:[shard]/[version]</code>
+  <br>
+  Example: <code>rsync ./doc/* sdogruyol@publish.crystal-docs.org:kemal/0.15.0</code>
+</p>

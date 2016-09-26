@@ -2,7 +2,7 @@
 
 Code for the [crystal-docs.org](https://crystal-docs.org) website.
 
-Requires crystal 0.18.7+
+Requires Crystal 0.18.7+
 
 You will need to create a GitHub developer application in order to test user interaction.
 

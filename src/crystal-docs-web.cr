@@ -6,11 +6,11 @@ require "kemal"
 require "ecr/macros"
 
 module Crystal::Docs::Web
-  $ga_tracking_id = ENV["GA_TRACKING_ID"]
+  $ga_tracking_id = ENV["GA_TRACKING_ID"] || ""
 
   macro partial(filename)
     io = MemoryIO.new
-    ECR.embed("src/views/#{{{filename}}}", io)
+    ECR.embed("src/views/#{{{filename}}}.ecr", io)
     io.to_s
   end
 
@@ -20,7 +20,7 @@ module Crystal::Docs::Web
 
   get "/badge.svg" do |env|
     style = env.params.query.fetch("style", "")
-    response = HTTP::Client.get("https://img.shields.io/badge/crystaldocs-ref-776791.svg?style=#{style}")
+    response = HTTP::Client.get("https://img.shields.io/badge/crystal--docs-ref-776791.svg?style=#{style}")
     env.response.content_type = "image/svg+xml"
     response.body
   end
@@ -32,9 +32,8 @@ module Crystal::Docs::Web
 
   get "/auth/github/callback" do |env|
     code = env.params.query["code"]
-    state = env.params.query["state"]
 
-    response = OAuth::GitHub.exchange_code(code, state)
+    response = OAuth::GitHub.exchange_code(code)
     github = GitHub::Client.new(response["access_token"])
     user = User.new(github.user)
 
