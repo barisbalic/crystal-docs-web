@@ -63,22 +63,26 @@ class StaticFileHandler < HTTP::Handler
     if Dir.exists?(file_path) && !is_root_path
       index_path = "#{file_path}index.html"
       if File.exists?(index_path)
+        content = file_content(index_path)
+
         context.response.content_type = "text/html"
-        context.response.content_length = File.size(index_path)
-        IO.copy(content_io(index_path), context.response)
+        context.response.content_length = content.size
+        IO.copy(content, context.response)
       else
         call_next(context)
       end
     elsif File.exists?(file_path) && !is_dir
+      content = file_content(file_path)
+
       context.response.content_type = mime_type(file_path)
-      context.response.content_length = File.size(file_path)
-      IO.copy(content_io(file_path), context.response)
+      context.response.content_length = content.size
+      IO.copy(content, context.response)
     else
       call_next(context)
     end
   end
 
-  private def content_io(filename)
+  private def file_content(filename)
     content = File.read(filename)
     content = content.gsub("</head>", "#{analytics_script}</head>")
     MemoryIO.new(content)
@@ -97,7 +101,7 @@ class StaticFileHandler < HTTP::Handler
     when ".htm", ".html" then "text/html"
     when ".css"          then "text/css"
     when ".js"           then "application/javascript"
-    else                      "application/octet-stream"
+    else                      "text/plain"
     end
   end
 
